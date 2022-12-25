@@ -1,69 +1,29 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { Address, Bytes, log, ipfs } from "@graphprotocol/graph-ts"
+
 import {
-  Claim,
-  Approval,
-  ApprovalForAll,
-  Transfer
+  Transfer,
+  Claim as ClaimContract,
 } from "../generated/Claim/Claim"
-import { ExampleEntity } from "../generated/schema"
+import { Claim } from "../generated/schema"
 
-export function handleApproval(event: Approval): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from)
+export function handleTransfer(event: Transfer): void {
+  // if (Address.fromString('0x0000000000000000000000000000000000000000').equals(event.params.from)) {
+  //   const claimContract = ClaimContract.bind(event.address)
+  //   const tokenURI = claimContract.tokenURI(event.params.tokenId);
+  //   // const tokenURI = "ipfs://bafyreidhh74echr3d6zn2sdqjaess3ooxmkz6c7dqvv4q6qvqj7wtkqv7y/metadata.json";
+  //   const tokenURIHash = tokenURI.replace('ipfs://', '');
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from)
+  //   log.info("tokenURI: {}", [tokenURI])
 
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
+  //   const data = ipfs.cat(tokenURIHash)
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
+    // log.info("data: {}", [data?.toString()])
 
-  // Entity fields can be set based on event parameters
-  entity.owner = event.params.owner
-  entity.approved = event.params.approved
 
-  // Entities can be written to the store with `.save()`
-  entity.save()
+    const tokenId = Bytes.fromByteArray(Bytes.fromBigInt(event.params.tokenId));
+    const claim = new Claim(tokenId);
 
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.argumentIndexOf(...)
-  // - contract.argumentsOf(...)
-  // - contract.balanceOf(...)
-  // - contract.claimOfArgument(...)
-  // - contract.claimOfOpinion(...)
-  // - contract.fractionalizationContractOf(...)
-  // - contract.getApproved(...)
-  // - contract.isApprovedForAll(...)
-  // - contract.knowledgeBitIndexOf(...)
-  // - contract.knowledgeBitsOf(...)
-  // - contract.name(...)
-  // - contract.opinionsOf(...)
-  // - contract.ownerOf(...)
-  // - contract.supportsInterface(...)
-  // - contract.symbol(...)
-  // - contract.tokenURI(...)
+    claim.owner = event.params.to;
+    claim.save();
+  // }
 }
-
-export function handleApprovalForAll(event: ApprovalForAll): void {}
-
-export function handleTransfer(event: Transfer): void {}

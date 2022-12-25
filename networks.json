@@ -2,6 +2,9 @@
   "goerli": {
     "Claim": {
       "address": "0xA5d9EdE8FfcE298485EAd73C2AED6db1E24AdB6F"
+    },
+    "KnowledgeBit": {
+      "address": "0xa21B9D6b300Dc63Ae0b1a08B0D2Bea23d5eA0aD7"
     }
   }
 }

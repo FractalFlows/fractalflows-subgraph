@@ -1,6 +1,10 @@
 specVersion: 0.0.5
+description: "Fractal Flows subgraph"
 schema:
   file: ./schema.graphql
+features:
+  - fullTextSearch
+  - ipfsOnEthereumContracts
 dataSources:
   - kind: ethereum
     name: Claim
@@ -8,22 +12,50 @@ dataSources:
     source:
       address: "0xA5d9EdE8FfcE298485EAd73C2AED6db1E24AdB6F"
       abi: Claim
+      startBlock: 8174400
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Approval
-        - ApprovalForAll
-        - Transfer
+        - Claims
       abis:
         - name: Claim
           file: ./abis/Claim.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,indexed uint256)
-          handler: handleApproval
-        - event: ApprovalForAll(indexed address,indexed address,bool)
-          handler: handleApprovalForAll
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/claim.ts
+  # - kind: ethereum
+  #   name: KnowledgeBit
+  #   network: goerli
+  #   source:
+  #     address: "0xa21B9D6b300Dc63Ae0b1a08B0D2Bea23d5eA0aD7"
+  #     abi: KnowledgeBit
+  #     startBlock: 8000000
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.7
+  #     language: wasm/assemblyscript
+  #     entities:
+  #       - Downvote
+  #       - KnowledgeBitTransfer
+  #       - Unvote
+  #       - Upvote
+  #     abis:
+  #       - name: KnowledgeBit
+  #         file: ./abis/KnowledgeBit.json
+  #     eventHandlers:
+  #       - event: KnowledgeBitApproval(indexed address,indexed address,indexed uint256)
+  #         handler: handleKnowledgeBitApproval
+  #       - event: KnowledgeBitApprovalForAll(indexed address,indexed address,bool)
+  #         handler: handleKnowledgeBitApprovalForAll
+  #       - event: Downvote(uint256,address)
+  #         handler: handleDownvote
+  #       - event: KnowledgeBitTransfer(indexed address,indexed address,indexed uint256)
+  #         handler: handleKnowledgeBitTransfer
+  #       - event: Unvote(uint256,address)
+  #         handler: handleUnvote
+  #       - event: Upvote(uint256,address)
+  #         handler: handleUpvote
+  #     file: ./src/knowledge-bit.ts

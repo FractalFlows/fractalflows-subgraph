@@ -1,6 +1,4 @@
-type ExampleEntity @entity {
+type Claim @entity {
   id: Bytes!
-  count: BigInt!
   owner: Bytes! # address
-  approved: Bytes! # address
 }
