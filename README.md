@@ -4,13 +4,15 @@
 
 ```bash
 $ npm i -g ipfs
+$ jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]' # allow CORS requests
+$ jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
 $ jsipfs daemon # start IPFS node
 ```
 
 ```bash
 $ git clone https://github.com/graphprotocol/graph-node.git
 $ cd graph-node
-$ cargo run -p graph-node --release -- \
+$ GRAPH_ALLOW_NON_DETERMINISTIC_IPFS=true cargo run -p graph-node --release -- \
  --postgres-url postgresql://{DB_USERNAME}:{DB_PSWD}@localhost:5432/fractalflows_subgraph \
  --ethereum-rpc {ETHEREUM_NETWORK_NAME}:{PROVIDER_URL} \
  --ipfs {IPFS_NODE_URL} \

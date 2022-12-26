@@ -1,4 +1,28 @@
 type Claim @entity {
-  id: Bytes!
+  id: String!
+  title: String!
+  summary: String!
+  slug: String!
+  tags: [Tag!]
+  sources: [Source!]
+  attributions: [Attribution!]
   owner: Bytes! # address
+}
+
+type Tag @entity(immutable: true) {
+  id: String!
+  label: String!
+  claims: [Claim!] @derivedFrom(field: "tags")
+}
+
+type Attribution @entity(immutable: true) {
+  id: String!
+  origin: String!
+  claims: [Claim!] @derivedFrom(field: "attributions")
+}
+
+type Source @entity(immutable: true) {
+  id: String!
+  origin: String!
+  claims: [Claim!] @derivedFrom(field: "sources")
 }
