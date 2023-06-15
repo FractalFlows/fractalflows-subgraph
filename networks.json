@@ -5,6 +5,12 @@
     },
     "KnowledgeBit": {
       "address": "0xa21B9D6b300Dc63Ae0b1a08B0D2Bea23d5eA0aD7"
+    },
+    "Opinion": {
+      "address": "0x417986Df1b9eF5Bd2B18b180A19D84E07304EAd6"
+    },
+    "Argument": {
+      "address": "0x19d7bCba5eE75C5ed79E6673aB51fAba9510fEC8"
     }
   }
 }
